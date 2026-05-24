@@ -1,8 +1,9 @@
 import * as dotenv from 'dotenv';
-import { UserEntity } from './src/modules/user/infrastructure/persistence/entities/user.entity';
-import { JobEntity } from './src/modules/recruitment/infrastructure/persistence/entities/job.entity';
-import { ResumeEntity } from './src/modules/recruitment/infrastructure/persistence/entities/resume.entity';
-import { JobApplicationEntity } from './src/modules/recruitment/infrastructure/persistence/entities/job-application.entity';
+import { JobSchema } from './src/modules/recruitment/infrastructure/persistence/schemas/job.schema';
+// import { UserEntity } from './src/modules/user/infrastructure/persistence/entities/user.entity';
+// import { JobEntity } from './src/modules/recruitment/infrastructure/persistence/entities/job.entity';
+// import { ResumeEntity } from './src/modules/recruitment/infrastructure/persistence/entities/resume.entity';
+// import { JobApplicationEntity } from './src/modules/recruitment/infrastructure/persistence/entities/job-application.entity';
 import { createMikroOrmConfig } from './src/core/database/mikro-orm.config';
 
 dotenv.config();
@@ -16,5 +17,5 @@ export default {
     dbName: process.env.DATABASE_NAME || 'app_db',
     debug: process.env.NODE_ENV !== 'production',
   }),
-  entities: [UserEntity, JobEntity, ResumeEntity, JobApplicationEntity],
+  entities: [JobSchema],
 };

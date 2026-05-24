@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   Body,
-  Controller,
+  //   Controller,
   Get,
   Param,
   Post,
@@ -13,7 +13,7 @@ import { RecruitmentService } from '../../application/service/recruitment.servic
 import { JobApplicationUploadService } from '../../application/service/job-application-upload.service';
 import { CreateJobDto } from '../dto/create-job.dto';
 
-@Controller('api/recruitment/jobs')
+// @Controller('api/recruitment/jobs')
 export class RecruitmentController {
   constructor(
     private readonly recruitmentService: RecruitmentService,
@@ -50,8 +50,8 @@ export class RecruitmentController {
       id: body.id,
       title: body.title,
       description: body.description,
-      requiredSkills: body.requiredSkills ?? [],
-      preferredSkills: body.preferredSkills ?? [],
+      requiredSkills: body.requiredSkills,
+      preferredSkills: body.preferredSkills,
     });
   }
 

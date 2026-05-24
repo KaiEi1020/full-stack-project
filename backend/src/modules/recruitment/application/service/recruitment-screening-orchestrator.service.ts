@@ -7,7 +7,7 @@ import {
 import { PdfParserService } from '../../../../core/pdf/pdf-parser.service';
 import { RecruitmentService } from './recruitment.service';
 
-@Injectable()
+// @Injectable()
 export class RecruitmentScreeningOrchestratorService {
   constructor(
     private readonly recruitmentService: RecruitmentService,

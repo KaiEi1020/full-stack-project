@@ -1,6 +1,6 @@
 import { Entity, Property, Enum } from '@mikro-orm/decorators/legacy';
-import { SubmissionStatus } from '../../../domain/vo/submission-status.enum';
-import { ScreeningStatus } from '../../../domain/vo/screening-status.enum';
+import { SubmissionStatus } from '../../../domain/vos/submission-status.enum';
+import { ScreeningStatus } from '../../../domain/vos/screening-status.enum';
 import { BaseEntity } from '../../../../../common/entities/base.entity';
 
 @Entity({ tableName: 'applications' })

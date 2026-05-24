@@ -1,5 +1,5 @@
 import { Entity, Property, Enum } from '@mikro-orm/decorators/legacy';
-import { ParseStatus } from '../../../domain/vo/parse-status.enum';
+import { ParseStatus } from '../../../domain/vos/parse-status.enum';
 import { BaseEntity } from '../../../../../common/entities/base.entity';
 
 @Entity({ tableName: 'resumes' })

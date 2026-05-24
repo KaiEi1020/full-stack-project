@@ -1,4 +1,4 @@
-import { ResumeEntity } from '../../infrastructure/persistence/entities/resume.entity';
+import { ResumeEntity } from '../../infrastructure/persistence/entities/resume.entity'; // TODO: 从实体中导入
 
 export const RESUME_REPOSITORY = Symbol('RESUME_REPOSITORY');
 

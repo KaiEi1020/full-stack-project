@@ -1,0 +1,68 @@
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
+import { JobService } from '../../application/service/job.service';
+import { CreateJobDto, UpdateJobDto } from '../dto/create-job.dto';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBody,
+} from '@nestjs/swagger';
+
+@ApiTags('job')
+@Controller('api/recruitment/job')
+export class JobController {
+  constructor(private readonly jobService: JobService) {}
+
+  @Post()
+  @ApiOperation({ summary: '创建职位' })
+  @ApiBody({ type: CreateJobDto })
+  @ApiResponse({ status: 201, description: '创建成功', type: CreateJobDto })
+  @ApiResponse({ status: 400, description: '请求参数错误' })
+  createJob(@Body() body: CreateJobDto) {
+    return this.jobService.create(body);
+  }
+
+  @Get()
+  @ApiOperation({ summary: '获取职位列表' })
+  @ApiResponse({ status: 200, description: '获取成功' })
+  listJobs() {
+    return this.jobService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: '获取职位详情' })
+  @ApiParam({ name: 'id', description: '职位 ID', type: String })
+  @ApiResponse({ status: 200, description: '获取成功' })
+  @ApiResponse({ status: 404, description: '职位不存在' })
+  getJob(@Param('id') id: string) {
+    return this.jobService.findById(id);
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: '更新职位' })
+  @ApiParam({ name: 'id', description: '职位 ID', type: String })
+  @ApiBody({ type: UpdateJobDto })
+  @ApiResponse({ status: 200, description: '更新成功' })
+  @ApiResponse({ status: 404, description: '职位不存在' })
+  updateJob(@Param('id') id: string, @Body() body: UpdateJobDto) {
+    return this.jobService.update(id, body);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: '删除职位' })
+  @ApiParam({ name: 'id', description: '职位 ID', type: String })
+  @ApiResponse({ status: 200, description: '删除成功' })
+  @ApiResponse({ status: 404, description: '职位不存在' })
+  deleteJob(@Param('id') id: string) {
+    return this.jobService.delete(id);
+  }
+}

@@ -1,4 +1,4 @@
-import { JobApplicationEntity } from '../../infrastructure/persistence/entities/job-application.entity';
+import { JobApplicationEntity } from '../../infrastructure/persistence/entities/job-application.entity'; // TODO: 从实体中导入
 
 export const JOB_APPLICATION_REPOSITORY = Symbol('JOB_APPLICATION_REPOSITORY');
 

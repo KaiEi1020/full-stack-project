@@ -1,7 +1,7 @@
-import { Body, Controller, Param, Patch } from '@nestjs/common';
+import { Body, Param, Patch } from '@nestjs/common';
 import { RecruitmentService } from '../../application/service/recruitment.service';
 
-@Controller('api/recruitment/resumes')
+// @Controller('api/recruitment/resumes')
 export class ResumesController {
   constructor(private readonly recruitmentService: RecruitmentService) {}
 
