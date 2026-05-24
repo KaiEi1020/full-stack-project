@@ -16,8 +16,8 @@ export const JobSchema = new EntitySchema<Job>({
     },
     requiredSkills: { type: 'text' },
     preferredSkills: { type: 'text' },
-    createdAt: { type: 'datetime', onCreate: () => new Date() },
-    updatedAt: { type: 'datetime', onUpdate: () => new Date() },
+    createdAt: { type: 'datetime' },
+    updatedAt: { type: 'datetime' },
     deletedAt: { type: 'datetime', nullable: true },
   },
 });

@@ -7,8 +7,13 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { JobService } from '../../application/service/job.service';
-import { CreateJobDto, UpdateJobDto } from '../dto/create-job.dto';
+import {
+  type CreateJobCommand,
+  type UpdateJobCommand,
+  JobService,
+} from '../../application/service/job.service';
+import { CreateJobDto } from '../dto/create-job.dto';
+import { UpdateJobDto } from '../dto/update-job.dto';
 import {
   ApiTags,
   ApiOperation,
@@ -28,7 +33,8 @@ export class JobController {
   @ApiResponse({ status: 201, description: '创建成功', type: CreateJobDto })
   @ApiResponse({ status: 400, description: '请求参数错误' })
   createJob(@Body() body: CreateJobDto) {
-    return this.jobService.create(body);
+    const command: CreateJobCommand = body;
+    return this.jobService.create(command);
   }
 
   @Get()
@@ -54,7 +60,8 @@ export class JobController {
   @ApiResponse({ status: 200, description: '更新成功' })
   @ApiResponse({ status: 404, description: '职位不存在' })
   updateJob(@Param('id') id: string, @Body() body: UpdateJobDto) {
-    return this.jobService.update(id, body);
+    const command: UpdateJobCommand = body;
+    return this.jobService.update(id, command);
   }
 
   @Delete(':id')

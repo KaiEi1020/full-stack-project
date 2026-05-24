@@ -27,7 +27,6 @@ type ApplicationView = {
 
 @Injectable()
 export class RecruitmentService {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   async createJob(input: any) {

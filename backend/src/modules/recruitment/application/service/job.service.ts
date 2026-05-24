@@ -4,22 +4,15 @@ import {
   type JobRepository,
 } from '../../domain/repository/job.repository';
 import { Job } from '../../domain/entities/job';
+import {
+  type CreateJobProps,
+  type UpdateJobProps,
+} from '../../domain/entities/job.types';
 import { JobStatus } from '../../domain/vos/job-status.enum';
 
-export interface CreateJobDto {
-  title: string;
-  description: string;
-  requiredSkills?: string;
-  preferredSkills?: string;
-}
+export type CreateJobCommand = CreateJobProps;
 
-export interface UpdateJobDto {
-  title?: string;
-  description?: string;
-  requiredSkills?: string;
-  preferredSkills?: string;
-  status?: JobStatus;
-}
+export type UpdateJobCommand = UpdateJobProps;
 
 export interface JobView {
   id: string;
@@ -39,7 +32,7 @@ export class JobService {
     private readonly jobRepo: JobRepository,
   ) {}
 
-  async create(input: CreateJobDto): Promise<JobView> {
+  async create(input: CreateJobCommand): Promise<JobView> {
     const job = Job.create({
       title: input.title,
       description: input.description,
@@ -62,7 +55,7 @@ export class JobService {
     return entities.map((e) => this.toView(e));
   }
 
-  async update(id: string, input: UpdateJobDto): Promise<JobView> {
+  async update(id: string, input: UpdateJobCommand): Promise<JobView> {
     const entity = await this.jobRepo.findByIdOrFail(id);
 
     entity.update({
@@ -79,7 +72,7 @@ export class JobService {
 
   async delete(id: string): Promise<void> {
     const entity = await this.jobRepo.findByIdOrFail(id);
-    entity.markDeleted();
+    entity.delete();
     await this.jobRepo.save(entity);
   }
 

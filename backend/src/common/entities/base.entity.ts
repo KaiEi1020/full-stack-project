@@ -1,15 +1,48 @@
-import { PrimaryKey, Property } from '@mikro-orm/decorators/legacy';
+import { randomUUID } from 'node:crypto';
+
+export interface BaseEntityProps {
+  id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+}
 
 export abstract class BaseEntity {
-  @PrimaryKey({ type: 'uuid' })
-  id: string = '';
+  protected readonly id: string;
+  protected createdAt: Date;
+  protected updatedAt: Date;
+  protected deletedAt?: Date;
 
-  @Property({ onCreate: () => new Date() })
-  createdAt: Date = new Date();
+  protected constructor(props?: BaseEntityProps) {
+    const baseProps = props ?? {};
+    this.id = baseProps.id ?? randomUUID();
+    this.createdAt = baseProps.createdAt ?? new Date();
+    this.updatedAt = baseProps.updatedAt ?? new Date();
+    this.deletedAt = baseProps.deletedAt;
+  }
 
-  @Property({ onCreate: () => new Date(), onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
+  protected touch(): void {
+    this.updatedAt = new Date();
+  }
 
-  @Property({ nullable: true })
-  deletedAt?: Date;
+  protected markDeleted(): void {
+    this.deletedAt = new Date();
+    this.touch();
+  }
+
+  public getId(): string {
+    return this.id;
+  }
+
+  public getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): Date {
+    return this.updatedAt;
+  }
+
+  public getDeletedAt(): Date | undefined {
+    return this.deletedAt;
+  }
 }

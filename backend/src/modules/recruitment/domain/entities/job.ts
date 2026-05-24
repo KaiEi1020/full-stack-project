@@ -1,77 +1,41 @@
-import { randomUUID } from 'node:crypto';
+import { BaseEntity } from '@/common/entities/base.entity';
+import {
+  type CreateJobProps,
+  type JobProps,
+  type UpdateJobProps,
+} from './job.types';
 import { JobStatus } from '../vos/job-status.enum';
 
-export class Job {
-  private id: string;
+export class Job extends BaseEntity {
   private title: string;
   private description: string;
   private requiredSkills?: string;
   private preferredSkills?: string;
   private status: JobStatus;
-  private createdAt: Date;
-  private updatedAt: Date;
-  private deletedAt?: Date;
 
-  constructor(
-    id: string,
-    title: string,
-    description: string,
-    status: JobStatus,
-    requiredSkills?: string,
-    preferredSkills?: string,
-    createdAt?: Date,
-    updatedAt?: Date,
-    deletedAt?: Date,
-  ) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.status = status;
-    this.requiredSkills = requiredSkills;
-    this.preferredSkills = preferredSkills;
-    this.createdAt = createdAt || new Date();
-    this.updatedAt = updatedAt || new Date();
-    this.deletedAt = deletedAt;
+  constructor(props: JobProps) {
+    super(props);
+    this.title = props.title;
+    this.description = props.description;
+    this.status = props.status;
+    this.requiredSkills = props.requiredSkills;
+    this.preferredSkills = props.preferredSkills;
   }
 
-  static create(input: {
-    id?: string;
-    title: string;
-    description: string;
-    status?: JobStatus;
-    requiredSkills?: string;
-    preferredSkills?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-    deletedAt?: Date;
-  }) {
-    return new Job(
-      input.id ?? randomUUID(),
-      input.title,
-      input.description,
-      input.status ?? JobStatus.DRAFT,
-      input.requiredSkills,
-      input.preferredSkills,
-      input.createdAt,
-      input.updatedAt,
-      input.deletedAt,
-    );
+  static create(input: CreateJobProps) {
+    return new Job({
+      ...input,
+      status: input.status ?? JobStatus.DRAFT,
+    });
   }
 
-  // 领域行为
   public publish(): void {
     if (this.status === JobStatus.ACTIVE) throw new Error('岗位已发布');
     this.status = JobStatus.ACTIVE;
-    this.updatedAt = new Date();
+    this.touch();
   }
 
-  public update(input: {
-    title?: string;
-    description?: string;
-    requiredSkills?: string;
-    preferredSkills?: string;
-    status?: JobStatus;
-  }) {
+  public update(input: UpdateJobProps): void {
     if (input.title !== undefined) {
       this.title = input.title;
     }
@@ -87,40 +51,30 @@ export class Job {
     if (input.status !== undefined) {
       this.status = input.status;
     }
-    this.updatedAt = new Date();
+    this.touch();
   }
 
-  public markDeleted() {
-    this.deletedAt = new Date();
-    this.updatedAt = new Date();
+  public delete(): void {
+    super.markDeleted();
   }
 
-  // Getters
-  public getId() {
-    return this.id;
-  }
-  public getTitle() {
+  public getTitle(): string {
     return this.title;
   }
-  public getDescription() {
+
+  public getDescription(): string {
     return this.description;
   }
-  public getStatus() {
+
+  public getStatus(): JobStatus {
     return this.status;
   }
-  public getRequiredSkills() {
+
+  public getRequiredSkills(): string | undefined {
     return this.requiredSkills;
   }
-  public getPreferredSkills() {
+
+  public getPreferredSkills(): string | undefined {
     return this.preferredSkills;
-  }
-  public getCreatedAt() {
-    return this.createdAt;
-  }
-  public getUpdatedAt() {
-    return this.updatedAt;
-  }
-  public getDeletedAt() {
-    return this.deletedAt;
   }
 }

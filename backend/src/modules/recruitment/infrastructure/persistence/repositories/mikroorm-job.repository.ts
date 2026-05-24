@@ -8,17 +8,25 @@ export class MikroOrmJobRepository implements JobRepository {
   constructor(private readonly em: EntityManager) {}
 
   async findById(id: string): Promise<Job | null> {
-    return this.em.findOne(Job, { id });
+    return this.em.findOne(Job, { id, deletedAt: undefined });
   }
 
   async findByIdOrFail(id: string): Promise<Job> {
-    return this.em.findOneOrFail(Job, { id });
+    return this.em.findOneOrFail(Job, { id, deletedAt: undefined });
+  }
+
+  async findByIdIncludingDeleted(id: string): Promise<Job | null> {
+    return this.em.findOne(Job, { id });
   }
 
   async findAll(options?: {
     orderBy?: Record<string, string>;
   }): Promise<Job[]> {
-    return this.em.find(Job, {}, { orderBy: options?.orderBy });
+    return this.em.find(
+      Job,
+      { deletedAt: undefined },
+      { orderBy: options?.orderBy },
+    );
   }
 
   async save(entity: Job): Promise<void> {
