@@ -16,5 +16,8 @@
     "deploy:cvm:transfer": "node ./scripts/transfer-cvm.mjs",
     "deploy:cvm": "bash ./deploy-cvm.sh all"
   },
-  "packageManager": "pnpm@10.6.5"
+  "packageManager": "pnpm@10.6.5",
+  "devDependencies": {
+    "shadcn": "^4.8.0"
+  }
 }
