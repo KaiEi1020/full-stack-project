@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
+import type {
+  PageQuery,
+  PageResult,
+} from '../../../../../common/pagination/page-response';
 import { Job } from '../../../domain/entities/job';
-import { JobRepository } from '../../../domain/repository/job.repository';
+import type { JobRepository } from '../../../domain/repository/job.repository';
 
 @Injectable()
 export class MikroOrmJobRepository implements JobRepository {
@@ -19,14 +23,21 @@ export class MikroOrmJobRepository implements JobRepository {
     return this.em.findOne(Job, { id });
   }
 
-  async findAll(options?: {
-    orderBy?: Record<string, string>;
-  }): Promise<Job[]> {
-    return this.em.find(
-      Job,
-      { deletedAt: undefined },
-      { orderBy: options?.orderBy },
-    );
+  async findPage(
+    query: PageQuery,
+    options?: {
+      orderBy?: Record<string, string>;
+    },
+  ): Promise<PageResult<Job>> {
+    const where = { deletedAt: undefined };
+    const offset = (query.pageNo - 1) * query.pageSize;
+    const [list, total] = await this.em.findAndCount(Job, where, {
+      orderBy: options?.orderBy,
+      limit: query.pageSize,
+      offset,
+    });
+
+    return { total, list };
   }
 
   async save(entity: Job): Promise<void> {

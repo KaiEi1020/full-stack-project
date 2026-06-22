@@ -6,12 +6,16 @@ import {
   Param,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import {
   type CreateJobCommand,
+  type JobView,
   type UpdateJobCommand,
   JobService,
 } from '../../application/service/job.service';
+import type { PageRequestDto } from '@/common/pagination/page-request.dto';
+import type { PageResponse } from '@/common/pagination/page-response';
 import { CreateJobDto } from '../dto/create-job.dto';
 import { UpdateJobDto } from '../dto/update-job.dto';
 import {
@@ -23,7 +27,7 @@ import {
 } from '@nestjs/swagger';
 
 @ApiTags('job')
-@Controller('api/recruitment/job')
+@Controller('api/recruitment/jobs')
 export class JobController {
   constructor(private readonly jobService: JobService) {}
 
@@ -38,10 +42,10 @@ export class JobController {
   }
 
   @Get()
-  @ApiOperation({ summary: '获取职位列表' })
+  @ApiOperation({ summary: '获取职位分页列表' })
   @ApiResponse({ status: 200, description: '获取成功' })
-  listJobs() {
-    return this.jobService.findAll();
+  jobPage(@Query() query: PageRequestDto): Promise<PageResponse<JobView>> {
+    return this.jobService.jobPage(query);
   }
 
   @Get(':id')

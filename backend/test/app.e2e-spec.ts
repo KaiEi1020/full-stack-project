@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager } from '@mikro-orm/postgresql';
 import request, { type Response } from 'supertest';
@@ -54,6 +54,12 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     app.enableCors({ origin: true });
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+      }),
+    );
     await app.init();
 
     em = app.get(EntityManager);
@@ -66,19 +72,19 @@ describe('AppController (e2e)', () => {
 
     // Seed users
     em.create(UserEntity, {
-      id: '1',
+      id: '1' as any,
       name: 'Ada Lovelace',
       email: 'ada@example.com',
       phone: '13800000001',
     });
     em.create(UserEntity, {
-      id: '2',
+      id: '2' as any,
       name: 'Grace Hopper',
       email: 'grace@example.com',
       phone: '13800000002',
     });
     em.create(UserEntity, {
-      id: '3',
+      id: '3' as any,
       name: 'Linus Torvalds',
       email: 'linus@example.com',
       phone: '13800000003',
@@ -159,6 +165,64 @@ describe('AppController (e2e)', () => {
     expect(applications.length).toBe(1);
   });
 
+  it('GET /api/recruitment/jobs returns paged jobs', async () => {
+    await request(app.getHttpServer())
+      .post('/api/recruitment/jobs')
+      .send({
+        title: '前端工程师',
+        description: 'React',
+        requiredSkills: 'Vue,TypeScript',
+        preferredSkills: 'Node.js',
+      })
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .post('/api/recruitment/jobs')
+      .send({
+        title: '后端工程师',
+        description: 'NestJS',
+        requiredSkills: 'NestJS,PostgreSQL',
+        preferredSkills: 'Redis',
+      })
+      .expect(201);
+
+    const response: Response = await request(app.getHttpServer())
+      .get('/api/recruitment/jobs')
+      .query({ pageNo: 1, pageSize: 1 })
+      .expect(200);
+
+    expect(response.body).toEqual({
+      total: 2,
+      list: [
+        expect.objectContaining({
+          title: '后端工程师',
+          description: 'NestJS',
+        }),
+      ],
+      hasNext: true,
+    });
+  });
+
+  it('GET /api/recruitment/jobs returns empty page result', async () => {
+    const response: Response = await request(app.getHttpServer())
+      .get('/api/recruitment/jobs')
+      .query({ pageNo: 1, pageSize: 10 })
+      .expect(200);
+
+    expect(response.body).toEqual({
+      total: 0,
+      list: [],
+      hasNext: false,
+    });
+  });
+
+  it('GET /api/recruitment/jobs rejects invalid page params', async () => {
+    await request(app.getHttpServer())
+      .get('/api/recruitment/jobs')
+      .query({ pageNo: 0, pageSize: 10 })
+      .expect(400);
+  });
+
   it('updates application status after screening completes', async () => {
     await request(app.getHttpServer())
       .post('/api/recruitment/jobs')
@@ -184,7 +248,7 @@ describe('AppController (e2e)', () => {
     const body = response.body as Array<{ applicationId: string }>;
     const application = await em.findOneOrFail(JobApplicationEntity, {
       id: body[0].applicationId,
-    });
+    } as any);
     expect(application.status).toBe('PASSED');
   });
 

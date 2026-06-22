@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express from 'express';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { resolve } from 'node:path';
 import { AppModule } from './app.module';
@@ -12,6 +13,12 @@ async function bootstrap() {
     process.env.STORAGE_DIR ?? resolve(process.cwd(), '..', 'storage');
 
   app.enableCors({ origin: true });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
   app.use('/storage', express.static(storageDir));
 
   const config = new DocumentBuilder()

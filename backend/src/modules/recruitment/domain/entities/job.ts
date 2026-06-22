@@ -1,17 +1,39 @@
-import { BaseEntity } from '@/common/entities/base.entity';
 import {
-  type CreateJobProps,
-  type JobProps,
-  type UpdateJobProps,
-} from './job.types';
+  BaseEntity,
+  type BaseEntityProps,
+} from '@/common/entities/base.entity';
 import { JobStatus } from '../vos/job-status.enum';
+
+export interface JobProps extends BaseEntityProps {
+  title: string;
+  description: string;
+  status: JobStatus;
+  requiredSkills?: string;
+  preferredSkills?: string;
+}
+
+export interface CreateJobProps {
+  title: string;
+  description: string;
+  status?: JobStatus;
+  requiredSkills?: string;
+  preferredSkills?: string;
+}
+
+export interface UpdateJobProps {
+  title?: string;
+  description?: string;
+  status?: JobStatus;
+  requiredSkills?: string;
+  preferredSkills?: string;
+}
 
 export class Job extends BaseEntity {
   private title: string;
   private description: string;
+  private status: JobStatus;
   private requiredSkills?: string;
   private preferredSkills?: string;
-  private status: JobStatus;
 
   constructor(props: JobProps) {
     super(props);

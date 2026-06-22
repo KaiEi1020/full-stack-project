@@ -7,12 +7,12 @@ import { ResumeRepository } from '../../domain/repository/resume.repository';
 export class MikroOrmResumeRepository implements ResumeRepository {
   constructor(private readonly em: EntityManager) {}
 
-  async findById(id: string): Promise<ResumeEntity | null> {
-    return this.em.findOne(ResumeEntity, { id });
+  async findById(id: string): Promise<any> {
+    return this.em.findOne(ResumeEntity, { id } as any);
   }
 
-  async findByIdOrFail(id: string): Promise<ResumeEntity> {
-    return this.em.findOneOrFail(ResumeEntity, { id });
+  async findByIdOrFail(id: string): Promise<any> {
+    return this.em.findOneOrFail(ResumeEntity, { id } as any);
   }
 
   async findAll(): Promise<ResumeEntity[]> {

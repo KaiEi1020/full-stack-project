@@ -7,12 +7,12 @@ import { JobApplicationRepository } from '../../domain/repository/job-applicatio
 export class MikroOrmJobApplicationRepository implements JobApplicationRepository {
   constructor(private readonly em: EntityManager) {}
 
-  async findById(id: string): Promise<JobApplicationEntity | null> {
-    return this.em.findOne(JobApplicationEntity, { id });
+  async findById(id: string): Promise<any> {
+    return this.em.findOne(JobApplicationEntity, { id } as any);
   }
 
-  async findByIdOrFail(id: string): Promise<JobApplicationEntity> {
-    return this.em.findOneOrFail(JobApplicationEntity, { id });
+  async findByIdOrFail(id: string): Promise<any> {
+    return this.em.findOneOrFail(JobApplicationEntity, { id } as any);
   }
 
   async findAll(options?: {

@@ -1,13 +1,18 @@
 import { Injectable, Inject } from '@nestjs/common';
 import {
+  toPageResponse,
+  type PageQuery,
+  type PageResponse,
+} from '@/common/pagination/page-response';
+import {
   JOB_REPOSITORY,
   type JobRepository,
 } from '../../domain/repository/job.repository';
-import { Job } from '../../domain/entities/job';
 import {
+  Job,
   type CreateJobProps,
   type UpdateJobProps,
-} from '../../domain/entities/job.types';
+} from '../../domain/entities/job';
 import { JobStatus } from '../../domain/vos/job-status.enum';
 
 export type CreateJobCommand = CreateJobProps;
@@ -48,11 +53,18 @@ export class JobService {
     return this.toView(entity);
   }
 
-  async findAll(): Promise<JobView[]> {
-    const entities = await this.jobRepo.findAll({
+  async jobPage(query: PageQuery): Promise<PageResponse<JobView>> {
+    const result = await this.jobRepo.findPage(query, {
       orderBy: { updatedAt: 'desc' },
     });
-    return entities.map((e) => this.toView(e));
+
+    return toPageResponse(
+      {
+        total: result.total,
+        list: result.list.map((entity) => this.toView(entity)),
+      },
+      query,
+    );
   }
 
   async update(id: string, input: UpdateJobCommand): Promise<JobView> {
