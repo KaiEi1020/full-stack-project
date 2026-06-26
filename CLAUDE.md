@@ -15,31 +15,31 @@ Install dependencies inside each app directory. Do not use a root pnpm workspace
 
 ### Frontend (`frontend/`)
 
-| Task | Command |
-| --- | --- |
-| Install dependencies | `cd frontend && pnpm install` |
-| Start dev server | `cd frontend && pnpm dev` |
-| Build production bundle | `cd frontend && pnpm build` |
-| Lint | `cd frontend && pnpm lint` |
+| Task                     | Command                       |
+| ------------------------ | ----------------------------- |
+| Install dependencies     | `cd frontend && pnpm install` |
+| Start dev server         | `cd frontend && pnpm dev`     |
+| Build production bundle  | `cd frontend && pnpm build`   |
+| Lint                     | `cd frontend && pnpm lint`    |
 | Preview production build | `cd frontend && pnpm preview` |
 
 ### Backend (`backend/`)
 
-| Task | Command |
-| --- | --- |
-| Install dependencies | `cd backend && pnpm install` |
-| Start dev server with watch | `cd backend && pnpm start:dev` |
-| Start once | `cd backend && pnpm start` |
-| Build | `cd backend && pnpm build` |
-| Lint | `cd backend && pnpm lint` |
-| Format | `cd backend && pnpm format` |
-| Run all unit tests | `cd backend && pnpm test` |
-| Run tests in watch mode | `cd backend && pnpm test:watch` |
-| Run coverage | `cd backend && pnpm test:cov` |
-| Run e2e tests | `cd backend && pnpm test:e2e` |
-| Debug tests | `cd backend && pnpm test:debug` |
-| Run a single Jest spec | `cd backend && pnpm test -- app.controller.spec.ts` |
-| Run a single e2e spec | `cd backend && pnpm test:e2e -- app.e2e-spec.ts` |
+| Task                        | Command                                             |
+| --------------------------- | --------------------------------------------------- |
+| Install dependencies        | `cd backend && pnpm install`                        |
+| Start dev server with watch | `cd backend && pnpm start:dev`                      |
+| Start once                  | `cd backend && pnpm start`                          |
+| Build                       | `cd backend && pnpm build`                          |
+| Lint                        | `cd backend && pnpm lint`                           |
+| Format                      | `cd backend && pnpm format`                         |
+| Run all unit tests          | `cd backend && pnpm test`                           |
+| Run tests in watch mode     | `cd backend && pnpm test:watch`                     |
+| Run coverage                | `cd backend && pnpm test:cov`                       |
+| Run e2e tests               | `cd backend && pnpm test:e2e`                       |
+| Debug tests                 | `cd backend && pnpm test:debug`                     |
+| Run a single Jest spec      | `cd backend && pnpm test -- app.controller.spec.ts` |
+| Run a single e2e spec       | `cd backend && pnpm test:e2e -- app.e2e-spec.ts`    |
 
 ## Architecture
 
@@ -84,3 +84,9 @@ Important constraints from current config:
 - Treat `frontend/` and `backend/` as separate runnable apps with independent dependency management
 - If a task mentions “the app” without clarification, verify whether it refers to the React frontend or the Nest backend
 - For frontend changes, validate behavior in a browser with the Vite dev server; for backend changes, prefer unit or e2e coverage depending on whether HTTP behavior changed
+
+## Language & Specification Requirements
+
+- 所有由 superpowers 插件生成的测试规约 (Specs)、设计文档 (Plans) 以及代码注释必须完全使用【简体中文】。
+- 编写测试用例 (Test Cases) 时，描述性的 `it("应该在用户登录失败时抛出错误", ...)` 或 `describe("购物车模块", ...)` 必须使用中文。
+- 保持技术名词的行业通用翻译（例如：保留 Worktree, Token，但解释和结构描述用中文）。
