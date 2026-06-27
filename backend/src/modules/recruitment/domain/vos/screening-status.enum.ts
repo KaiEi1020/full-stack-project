@@ -1,4 +1,5 @@
 export enum ScreeningStatus {
+  PENDING = 'PENDING', // 待处理
   UPLOADING = 'UPLOADING', // 文件上传中
   UPLOADED = 'UPLOADED', // 上传完成，等待解析
   PARSING = 'PARSING', // 解析中

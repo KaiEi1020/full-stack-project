@@ -1,11 +1,21 @@
 import {
+  Entity,
+  Property,
+  Enum,
+} from '@mikro-orm/decorators/legacy';
+import {
   BaseEntity,
   type BaseEntityProps,
 } from '@/common/entities/base.entity';
+import { ParseStatus } from '../vos/parse-status.enum';
 
+@Entity({ tableName: 'resumes' })
 export class Resume extends BaseEntity {
-  private name: string | null = null;
-  private phone: string | null = null;
+  @Property({ nullable: true })
+  name: string | null = null;
+
+  @Property({ nullable: true })
+  phone: string | null = null;
 
   @Property({ nullable: true })
   email: string | null = null;

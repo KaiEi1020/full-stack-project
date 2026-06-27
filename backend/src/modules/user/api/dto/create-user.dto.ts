@@ -14,7 +14,10 @@ export class CreateUserDto {
   @MaxLength(50)
   nickname!: string;
 
-  @ApiPropertyOptional({ description: '头像URL', example: 'https://example.com/avatar.png' })
+  @ApiPropertyOptional({
+    description: '头像URL',
+    example: 'https://example.com/avatar.png',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(255)

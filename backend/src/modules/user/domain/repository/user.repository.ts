@@ -1,7 +1,4 @@
-import type {
-  PageQuery,
-  PageResult,
-} from '@/common/pagination/page-response';
+import type { PageQuery, PageResult } from '@/common/pagination/page-response';
 import { User } from '../entities/user';
 
 export const USER_REPOSITORY = Symbol('USER_REPOSITORY');
