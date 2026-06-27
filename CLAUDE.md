@@ -84,6 +84,7 @@ Important constraints from current config:
 - Treat `frontend/` and `backend/` as separate runnable apps with independent dependency management
 - If a task mentions “the app” without clarification, verify whether it refers to the React frontend or the Nest backend
 - For frontend changes, validate behavior in a browser with the Vite dev server; for backend changes, prefer unit or e2e coverage depending on whether HTTP behavior changed
+- 所有业务删除操作必须使用软删除：通过状态字段、删除时间戳或等价标记隐藏数据，不直接物理删除持久化数据；仅在明确要求清理临时文件、构建产物或测试夹具时才允许物理删除
 
 ## Language & Specification Requirements
 

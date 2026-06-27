@@ -8,29 +8,29 @@
 
 ### 2.1 users 表
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | UUID | 系统唯一用户ID，沿用 `BaseEntity` 的 UUID 字符串 |
-| `nickname` | VARCHAR(50) | 用户在本系统的昵称，必填 |
-| `avatar_url` | VARCHAR(255) | 头像URL，可为空 |
-| `email` | VARCHAR(100) | 绑定邮箱，可为空，唯一 |
-| `status` | TINYINT | 用户状态: 1-正常, 0-禁用，默认1 |
-| `created_at` | TIMESTAMP | 创建时间 |
-| `updated_at` | TIMESTAMP | 更新时间 |
-| `deleted_at` | TIMESTAMP | 软删除标记 |
+| 字段         | 类型         | 说明                                             |
+| ------------ | ------------ | ------------------------------------------------ |
+| `id`         | UUID         | 系统唯一用户ID，沿用 `BaseEntity` 的 UUID 字符串 |
+| `nickname`   | VARCHAR(50)  | 用户在本系统的昵称，必填                         |
+| `avatar_url` | VARCHAR(255) | 头像URL，可为空                                  |
+| `email`      | VARCHAR(100) | 绑定邮箱，可为空，唯一                           |
+| `status`     | TINYINT      | 用户状态: 1-正常, 0-禁用，默认1                  |
+| `created_at` | TIMESTAMP    | 创建时间                                         |
+| `updated_at` | TIMESTAMP    | 更新时间                                         |
+| `deleted_at` | TIMESTAMP    | 软删除标记                                       |
 
 ### 2.2 user_auths 表
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | UUID | 主键，沿用 `BaseEntity` 的 UUID 字符串 |
-| `user_id` | UUID | 对应 `users` 表的 `id` |
-| `identity_type` | VARCHAR(20) | 登录类型: github, wechat, gitee, password |
-| `identifier` | VARCHAR(100) | 唯一标识: 第三方平台的 UnionID/OpenID，密码登录则是用户名/邮箱 |
-| `credential` | VARCHAR(255) | 凭证: 密码登录存 `argon2id` 哈希密码；第三方登录可选存 access_token |
-| `created_at` | TIMESTAMP | 创建时间 |
-| `updated_at` | TIMESTAMP | 更新时间 |
-| `deleted_at` | TIMESTAMP | 软删除标记 |
+| 字段            | 类型         | 说明                                                                |
+| --------------- | ------------ | ------------------------------------------------------------------- |
+| `id`            | UUID         | 主键，沿用 `BaseEntity` 的 UUID 字符串                              |
+| `user_id`       | UUID         | 对应 `users` 表的 `id`                                              |
+| `identity_type` | VARCHAR(20)  | 登录类型: github, wechat, gitee, password                           |
+| `identifier`    | VARCHAR(100) | 唯一标识: 第三方平台的 UnionID/OpenID，密码登录则是用户名/邮箱      |
+| `credential`    | VARCHAR(255) | 凭证: 密码登录存 `argon2id` 哈希密码；第三方登录可选存 access_token |
+| `created_at`    | TIMESTAMP    | 创建时间                                                            |
+| `updated_at`    | TIMESTAMP    | 更新时间                                                            |
+| `deleted_at`    | TIMESTAMP    | 软删除标记                                                          |
 
 ### 2.3 约束
 
@@ -92,13 +92,13 @@ backend/src/modules/user/
 
 ### 5.1 UserService
 
-| 方法 | 职责 |
-|------|------|
-| `create(command)` | 创建用户；`nickname` 必填；password 注册时 `identifier/password` 必填；使用 `argon2id` 哈希密码；同时创建 `User` 和 `UserAuth` |
-| `findById(id)` | 查询用户详情 |
-| `findPage(query)` | 分页查询未删除用户 |
-| `update(id, command)` | 更新昵称、头像、邮箱、状态 |
-| `delete(id)` | 软删除用户 |
+| 方法                  | 职责                                                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `create(command)`     | 创建用户；`nickname` 必填；password 注册时 `identifier/password` 必填；使用 `argon2id` 哈希密码；同时创建 `User` 和 `UserAuth` |
+| `findById(id)`        | 查询用户详情                                                                                                                   |
+| `findPage(query)`     | 分页查询未删除用户                                                                                                             |
+| `update(id, command)` | 更新昵称、头像、邮箱、状态                                                                                                     |
+| `delete(id)`          | 软删除用户                                                                                                                     |
 
 ### 5.2 视图对象
 
@@ -108,13 +108,13 @@ backend/src/modules/user/
 
 ### 6.1 REST API
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| POST | `/api/users` | 创建用户（含 password 注册） |
-| GET | `/api/users` | 分页查询用户列表 |
-| GET | `/api/users/:id` | 查询用户详情 |
-| PUT | `/api/users/:id` | 更新用户信息 |
-| DELETE | `/api/users/:id` | 软删除用户 |
+| 方法   | 路径             | 说明                         |
+| ------ | ---------------- | ---------------------------- |
+| POST   | `/api/users`     | 创建用户（含 password 注册） |
+| GET    | `/api/users`     | 分页查询用户列表             |
+| GET    | `/api/users/:id` | 查询用户详情                 |
+| PUT    | `/api/users/:id` | 更新用户信息                 |
+| DELETE | `/api/users/:id` | 软删除用户                   |
 
 ### 6.2 DTO
 
@@ -135,14 +135,14 @@ backend/src/modules/user/
 
 ## 8. 关键决策
 
-| 决策项 | 结论 | 说明 |
-|--------|------|------|
-| 用户 ID 类型 | UUID 字符串 | 沿用项目当前 `BaseEntity` 的 UUID 字符串，不采用 BIGINT 自增 |
-| 密码加密 | `argon2id` | 推荐方案，安全性优于 bcrypt |
-| 删除策略 | 软删除 | 和 `recruitment` 模块保持一致 |
-| 认证范围 | 本期不做 | 仅保留 `user_auths` 数据模型和写入能力，登录/注册/Token 后续再做 |
-| 密码必填 | 是 | 创建 password 类型身份时密码必填 |
-| auth 删除 | 用户软删除不物理删除 auth | 认证查询后续应校验用户状态和 `deletedAt` |
+| 决策项       | 结论                      | 说明                                                             |
+| ------------ | ------------------------- | ---------------------------------------------------------------- |
+| 用户 ID 类型 | UUID 字符串               | 沿用项目当前 `BaseEntity` 的 UUID 字符串，不采用 BIGINT 自增     |
+| 密码加密     | `argon2id`                | 推荐方案，安全性优于 bcrypt                                      |
+| 删除策略     | 软删除                    | 和 `recruitment` 模块保持一致                                    |
+| 认证范围     | 本期不做                  | 仅保留 `user_auths` 数据模型和写入能力，登录/注册/Token 后续再做 |
+| 密码必填     | 是                        | 创建 password 类型身份时密码必填                                 |
+| auth 删除    | 用户软删除不物理删除 auth | 认证查询后续应校验用户状态和 `deletedAt`                         |
 
 ## 9. 旧代码处理
 
