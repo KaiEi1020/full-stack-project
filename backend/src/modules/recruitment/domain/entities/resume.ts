@@ -6,7 +6,7 @@ import {
 import {
   BaseEntity,
   type BaseEntityProps,
-} from '@/common/entities/base.entity';
+} from '../../../../common/entities/base.entity';
 import { ParseStatus } from '../vos/parse-status.enum';
 
 @Entity({ tableName: 'resumes' })

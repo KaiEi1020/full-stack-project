@@ -1,7 +1,7 @@
 import {
   BaseEntity,
   type BaseEntityProps,
-} from '@/common/entities/base.entity';
+} from '../../../../common/entities/base.entity';
 import { JobStatus } from '../vos/job-status.enum';
 
 export interface JobProps extends BaseEntityProps {

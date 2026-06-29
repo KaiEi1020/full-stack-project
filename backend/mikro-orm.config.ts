@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import { JobSchema } from './src/modules/recruitment/infrastructure/persistence/schemas/job.schema';
-// import { UserEntity } from './src/modules/user/infrastructure/persistence/entities/user.entity';
+import { UserSchema } from './src/modules/user/infrastructure/persistence/schemas/user.schema';
+import { UserAuthSchema } from './src/modules/user/infrastructure/persistence/schemas/user-auth.schema';
 // import { JobEntity } from './src/modules/recruitment/infrastructure/persistence/entities/job.entity';
 // import { ResumeEntity } from './src/modules/recruitment/infrastructure/persistence/entities/resume.entity';
 // import { JobApplicationEntity } from './src/modules/recruitment/infrastructure/persistence/entities/job-application.entity';
@@ -17,5 +18,5 @@ export default {
     dbName: process.env.DATABASE_NAME || 'app_db',
     debug: process.env.NODE_ENV !== 'production',
   }),
-  entities: [JobSchema],
+  entities: [JobSchema, UserSchema, UserAuthSchema],
 };

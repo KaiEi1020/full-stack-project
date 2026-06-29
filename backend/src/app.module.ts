@@ -9,7 +9,7 @@ import { DatabaseModule } from './core/database/database.module';
 // import { SseModule } from './core/sse/sse.module';
 import { RecruitmentModule } from './modules/recruitment/recruitment.module';
 // import { RecruitmentScreeningModule } from './modules/recruitment/infrastructure/external/recruitment-screening.module';
-// import { UserModule } from './modules/user/user.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -17,6 +17,7 @@ import { RecruitmentModule } from './modules/recruitment/recruitment.module';
       isGlobal: true,
     }),
     DatabaseModule,
+    UserModule,
     RecruitmentModule,
     // StorageModule,
     // SseModule,
@@ -24,7 +25,6 @@ import { RecruitmentModule } from './modules/recruitment/recruitment.module';
     // BigModelModule,
     // RecruitmentScreeningModule,
     // RecruitmentModule,
-    // UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

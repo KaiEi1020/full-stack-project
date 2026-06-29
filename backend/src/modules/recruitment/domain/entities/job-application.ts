@@ -1,7 +1,7 @@
 import {
   BaseEntity,
   type BaseEntityProps,
-} from '@/common/entities/base.entity';
+} from '../../../../common/entities/base.entity';
 import { ScreeningStatus } from '../vos/screening-status.enum';
 import { SubmissionStatus } from '../vos/submission-status.enum';
 

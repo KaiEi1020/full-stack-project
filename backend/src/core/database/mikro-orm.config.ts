@@ -25,7 +25,7 @@ export const createMikroOrmConfig = (options: {
       transactional: true,
       disableForeignKeys: true,
       allOrNothing: true,
-      dropTables: true,
+      dropTables: false,
       safe: false,
       snapshot: true,
       emit: 'ts',

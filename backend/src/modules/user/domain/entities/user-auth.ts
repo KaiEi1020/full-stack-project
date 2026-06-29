@@ -1,7 +1,7 @@
 import {
   BaseEntity,
   type BaseEntityProps,
-} from '@/common/entities/base.entity';
+} from '../../../../common/entities/base.entity';
 import { IdentityType } from '../vos/identity-type.enum';
 
 export interface UserAuthProps extends BaseEntityProps {
